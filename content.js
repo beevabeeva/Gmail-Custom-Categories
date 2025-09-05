@@ -4,8 +4,51 @@ const ALLOWED_EMAILS = [
 ];
 
 const TABS = {
+  "Primary": "category:primary",
   "Github": "label:Github AND is:unread",
+  "Notes": "label:notes",
+  "asdf": "label:notes",
+  "sadfsadfasd": "label:notes",
+  "astrqdf": "label:notes",
+  "gggg": "label:notes",
+  "avaa": "label:notes",
 };
+
+
+function updateActiveTab() {
+  const currentURL = window.location.href;
+
+  Object.keys(TABS).forEach(name => {
+    // Find the button by class and text
+    const btn = Array.from(document.querySelectorAll(".inboxTab")).find(b => b.textContent.trim().startsWith(name));
+    if (!btn) return;
+
+    const query = encodeURIComponent(TABS[name]);
+    // Gmail sometimes replaces spaces with + in URL
+    const queryAlt = encodeURIComponent(TABS[name]).replace(/%20/g, '+');
+
+    // if (currentURL.includes(`#search/${query}`) || currentURL.includes(`#search/${queryAlt}`)) {
+    //   console.log("Selected tab:", name);
+    //   btn.style.backgroundColor = "#d2e3fc"; // light blue
+    //   btn.style.color = "#1967d2";
+    // } else {
+    //   btn.style.backgroundColor = "";
+    //   btn.style.color = "";
+    // }
+    // const isActive = currentURL.includes(`#search/${query}`) || currentURL.includes(`#search/${queryAlt}`);
+    const isActive =
+      name === "Primary"
+      ? currentURL.includes("#inbox")
+      : currentURL.includes(`#search/${query}`) || currentURL.includes(`#search/${queryAlt}`);
+
+    // toggle bottom bar
+    // if (btn.activeBar) btn.activeBar.style.display = isActive ? "block" : "none";
+    // btn.style.color = isActive ? "#1967d2" : "";
+    btn.classList.toggle("active", isActive);
+
+  });
+}
+
 
 function injectTabs() {
   if (document.getElementById("inboxTabs")) return;
@@ -14,7 +57,7 @@ function injectTabs() {
   bar.id = "inboxTabs";
   bar.style.display = "flex";
   bar.style.gap = "5px";
-  bar.style.margin = "5px 0";
+  bar.style.margin = "0px 0px";
 
   const badges = {}; // store badge elements by tab name
 
@@ -26,6 +69,21 @@ function injectTabs() {
     btn.style.alignItems = "center";
     btn.style.gap = "5px";            
     // btn.textContent = name;
+
+    // Add active indicator bar
+    // const activeBar = document.createElement("div");
+    // activeBar.className = "activeBar";
+    // activeBar.style.position = "absolute";
+    // activeBar.style.bottom = "0";
+    // activeBar.style.left = "0";
+    // activeBar.style.height = "3px"; // thickness of the bar
+    // activeBar.style.width = "100%";
+    // activeBar.style.backgroundColor = "#1967d2"; // Gmail-style blue
+    // activeBar.style.display = "none"; // hidden by default
+    // btn.appendChild(activeBar);
+
+    // // store reference for easy updating
+    // btn.activeBar = activeBar;
 
 
     // Add icon (example: GitHub logo)
@@ -49,6 +107,8 @@ function injectTabs() {
     // Append in correct order: icon first, then text
     if (icon) btn.appendChild(icon);
     btn.appendChild(textNode);
+  } else{
+    btn.textContent = name;
   }
 
   
@@ -72,7 +132,15 @@ function injectTabs() {
       const query = TABS[name];
       const match = window.location.href.match(/\/u\/(\d+)\//);
       const accountIndex = match ? parseInt(match[1], 10) : 0;
-      window.location.href = `https://mail.google.com/mail/u/${accountIndex}/#search/${encodeURIComponent(query)}`;
+    //   window.location.href = `https://mail.google.com/mail/u/${accountIndex}/#search/${encodeURIComponent(query)}`;
+      if (name === "Primary") {
+        // special case → go to inbox
+        window.location.href = `https://mail.google.com/mail/u/${accountIndex}/#inbox`;
+      } else {
+        // normal tabs → go to search
+        const query = TABS[name];
+        window.location.href = `https://mail.google.com/mail/u/${accountIndex}/#search/${encodeURIComponent(query)}`;
+      }
     };
 
     bar.appendChild(btn);
@@ -103,6 +171,7 @@ function injectTabs() {
         badges[name].style.display = "inline-block";
       }
     });
+    updateActiveTab();
   };
 
   // Initial update
@@ -127,6 +196,8 @@ function waitForGmail() {
     }
 
     injectTabs();
+    updateActiveTab();
+    window.addEventListener("hashchange", updateActiveTab);
   } else {
     setTimeout(waitForGmail, 1000);
   }
