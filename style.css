@@ -1,0 +1,85 @@
+/* Trendy gradient bar */
+/* #inboxTabs {
+  display: flex;
+  padding: 5px;
+  background: linear-gradient(90deg, #ff6ec4, #7873f5, #4ade80, #facc15);
+  border-bottom: 1px solid #ddd;
+  border-radius: 6px;
+  gap: 5px;
+} */
+
+#inboxTabs {
+  display: flex;
+  padding: 5px;
+  border-radius: 6px;
+  gap: 5px;
+  
+  background: linear-gradient(270deg, #ff6ec4, #7873f5, #4ade80, #facc15);
+  background-size: 200% 200%; /* make it bigger than the element for smooth motion */
+  animation: gradientAnimation 3s ease infinite;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Keyframes for gradient movement */
+@keyframes gradientAnimation {
+  /* 0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; } */
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Tab buttons with subtle gradient and smooth transitions */
+.inboxTab {
+  margin-right: 5px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ffffff, #f3f3f3);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect: pop and gradient overlay */
+.inboxTab:hover {
+  background: linear-gradient(135deg, #ff6ec4, #7873f5);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Active tab: solid vibrant color */
+.inboxTab.active {
+  background: linear-gradient(135deg, #ff6ec4, #7873f5);
+  color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Badge styling (unchanged) */
+.tabBadge {
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background: red;
+  color: white;
+  display: none; /* still hides 0 counts */
+}
