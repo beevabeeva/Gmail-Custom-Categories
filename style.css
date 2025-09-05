@@ -11,9 +11,10 @@
 #inboxTabs {
   display: flex;
   padding: 5px;
+  padding-left: 15px; 
   border-radius: 0px;
   gap: 5px;
-  height: 40px;
+  height: 48px;
   /* margin-top: 0px; */
   
   background: linear-gradient(270deg, #ff6ec4, #7873f5, #4ade80, #facc15);
