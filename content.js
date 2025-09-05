@@ -7,16 +7,23 @@ const TABS = {
   "Primary": "category:primary",
   "Github": "label:Github AND is:unread",
   "Notes": "label:notes",
-  "asdf": "label:notes",
-  "sadfsadfasd": "label:notes",
-  "astrqdf": "label:notes",
-  "gggg": "label:notes",
-  "avaa": "label:notes",
+  "asdf": "label:asdf",
+  "sadfsadfasd": "label:af",
+  "astrqdf": "label:r",
+  "gggg": "label:g",
+  "avaa": "label:v",
 };
 
 
 function updateActiveTab() {
   const currentURL = window.location.href;
+
+  // Detect reading an email (URL ends with /<long hex id>)
+  const bar = document.getElementById("inboxTabs");
+  const inThread = /#(?:inbox|search\/[^/]+)\/[A-Za-z0-9._-]{6,}/.test(currentURL);
+  if (bar) {
+    bar.style.display = inThread ? "none" : "flex";
+  }
 
   Object.keys(TABS).forEach(name => {
     // Find the button by class and text
