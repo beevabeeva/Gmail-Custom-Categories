@@ -52,10 +52,13 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  background: linear-gradient(135deg, #ffffffd0, #f3f3f3d2);
-  backdrop-filter: blur(6px);   /* frosted glass blur */
-  -webkit-backdrop-filter: blur(6px); /* Safari support */
-  border: 1px solid rgba(255, 255, 255, 0.3); /* subtle glass border */
+  /* background: linear-gradient(135deg, #ffffffd0, #f3f3f3d2); */
+background: rgba(255, 255, 255, 0.5); /* semi-transparent */
+  backdrop-filter: blur(10px); /* blur behind the button */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* subtle border */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
   font-size: 13px;
   font-weight: 500;
   transition: all 0.3s ease;
